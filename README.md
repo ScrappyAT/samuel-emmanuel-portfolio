@@ -1,36 +1,152 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Samuel Emmanuel — Personal Portfolio
 
-## Getting Started
+My personal portfolio website showcasing my work, experience, technical skills, and progression as a Product Engineer.
 
-First, run the development server:
+**Live Site:** https://samuel-emmanuel-portfolio.vercel.app
+
+## About
+
+I'm a Product Engineer with a background in IT and infrastructure. I work across product thinking, frontend and backend engineering, APIs, databases, and production environments.
+
+My infrastructure background gives me experience beyond application code — including servers, networking, hosting, cloud services, and troubleshooting production systems.
+
+I'm currently expanding that foundation into DevOps, system design, and AI product engineering.
+
+## Featured Projects
+
+### Subslice — Subscription & Billing System
+
+A backend-focused subscription and billing system built around reliable payment workflows.
+
+Key areas explored:
+
+- Subscription lifecycle management
+- Flutterwave payment integration
+- Webhook verification
+- Idempotent payment processing
+- Append-only payment event logging
+- Proration
+- Cancellation at period end
+
+### ReviewSlice — AI Review Analysis
+
+An AI-powered review analysis workflow that processes customer reviews and returns structured insights.
+
+Key areas explored:
+
+- AI API integration
+- Structured model output
+- Runtime validation
+- Sentiment analysis
+- Theme and complaint extraction
+- Background processing
+- Reliable handling of AI-generated data
+
+### Property Listings API
+
+A property listings platform backed by a REST API and PostgreSQL database.
+
+Key areas explored:
+
+- REST API design
+- PostgreSQL data modelling
+- TypeScript and Express
+- Property and agent relationships
+- Images and inquiries
+- Seeded development data
+- Consumer-facing property browsing interface
+
+## Tech Stack
+
+### Languages
+- TypeScript
+- JavaScript
+- SQL
+
+### Frontend
+- React
+- Next.js
+- Tailwind CSS
+
+### Backend
+- Node.js
+- Express
+- REST APIs
+
+### Data
+- PostgreSQL
+
+### Infrastructure & Tools
+- Git
+- GitHub
+- Vercel
+- Railway
+- cPanel
+
+### Currently Expanding Into
+- Docker
+- CI/CD
+- Redis
+- Queues
+- Observability
+- Retrieval-Augmented Generation (RAG)
+
+## Portfolio Features
+
+- Responsive mobile and desktop layouts
+- Light and dark themes
+- Persistent theme preference
+- Selected project case studies
+- Career progression and professional experience
+- Technical skills overview
+- Contact and availability information
+- SEO and social sharing metadata
+
+## Running Locally
+
+Clone the repository:
+
+```bash
+git clone https://github.com/ScrappyAT/samuel-emmanuel-portfolio.git
+```
+
+Enter the project directory:
+
+```bash
+cd samuel-emmanuel-portfolio
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The portfolio is deployed on Vercel and connected to the `main` branch of this repository.
 
-## Learn More
+Production site:
 
-To learn more about Next.js, take a look at the following resources:
+**https://samuel-emmanuel-portfolio.vercel.app**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contact
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+I'm based in Lagos, Nigeria and open to remote Product Engineering and Software Engineering opportunities, including planned overlap with UK, European, and US teams.
 
-## Deploy on Vercel
+- **Email:** chinazasamuelemmanuel@gmail.com
+- **GitHub:** https://github.com/ScrappyAT
+- **LinkedIn:** https://www.linkedin.com/in/cs-emmanuel
+- **Portfolio:** https://samuel-emmanuel-portfolio.vercel.app
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built by Samuel Emmanuel.
