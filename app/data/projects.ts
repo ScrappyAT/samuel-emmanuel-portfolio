@@ -13,6 +13,36 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "rota",
+    title: "Rota — Team Shift Scheduling & Financial Integrity",
+    summary:
+      "A production-grade, multi-tenant mobile shift scheduling app with atomic shift swaps, keyset cursor-paginated activity feeds, append-only financial ledger, and supervised background worker daemon.",
+    context:
+      "Designed for shift-based businesses (clinics, restaurants, retail). Pairs an Expo / React Native mobile app with an Express, PostgreSQL 15, and Redis 7 backend deployed to Railway in a supervised single container running both API and BullMQ worker. Features versioned USD subscriptions ($20 Starter with 5 seats) via Flutterwave, separate-floor proration, and payment idempotency.",
+    engineeringHighlights: [
+      "Multi-tenant role-based isolation (Owner, Manager, Staff) with primary membership verification",
+      "Atomic shift-swap state machine with row-level locking to eliminate double-assignment races",
+      "Deterministic (created_at, id) keyset cursor pagination with sub-millisecond walks over 10k+ rows",
+      "Append-only financial ledger (financial_ledger) with separate-floor proration and client UUID idempotency",
+      "Transactional PostgreSQL outbox (job_outbox) with BullMQ Redis background worker",
+      "Single-container process supervisor (combined-server.ts) with graceful shutdown on Railway",
+      "Empirical 200-VU k6 load benchmark (-49.9% p50 latency, +74.9% throughput, 0% error rate)",
+    ],
+    technologies: [
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "Redis",
+      "BullMQ",
+      "React Native",
+      "Expo SDK 57",
+      "Flutterwave",
+      "Docker",
+    ],
+    githubUrl: "https://github.com/ScrappyAT/rota",
+  },
+  {
     slug: "subslice",
     title: "Subslice — Subscription & Billing System",
     summary:
