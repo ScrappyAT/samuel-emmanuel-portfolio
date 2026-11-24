@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { projects } from "@/app/data/projects";
 import type { Project } from "@/app/data/projects";
 
@@ -26,7 +27,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       </span>
 
       <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-        {project.title}
+        {project.caseStudyUrl ? (
+          <Link
+            href={project.caseStudyUrl}
+            className="hover:underline focus:outline-none focus:ring-2 focus:ring-zinc-500 rounded"
+          >
+            {project.title}
+          </Link>
+        ) : (
+          project.title
+        )}
       </h3>
 
       <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -78,8 +88,30 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </div>
       </div>
 
-      {/* Source link */}
-      <div className="mt-6 border-t border-zinc-100 pt-4 dark:border-zinc-800">
+      {/* Links */}
+      <div className="mt-6 flex flex-wrap items-center gap-4 border-t border-zinc-100 pt-4 dark:border-zinc-800">
+        {project.caseStudyUrl && (
+          <Link
+            href={project.caseStudyUrl}
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600 dark:text-zinc-100 dark:hover:text-zinc-300"
+          >
+            Read Case Study
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </Link>
+        )}
         <a
           href={project.githubUrl}
           target="_blank"
