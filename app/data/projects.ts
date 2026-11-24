@@ -54,10 +54,10 @@ export const projects: Project[] = [
       "Built for the Nigerian cinema exhibition market. Pairs an Expo React Native mobile client (tested on physical Android hardware) with an Express, PostgreSQL 16 (Neon), and Redis Cloud backend. Features interactive auditorium seat selection, 5-minute atomic seat holds, NGN integer kobo pricing, Flutterwave sandbox checkout, and scannable digital passes with QR codes.",
     engineeringHighlights: [
       "Two-tier concurrency safety: atomic fast-path Redis Lua seat holds (5-minute TTL) backed by PostgreSQL ACID row-level locking (SELECT ... FOR UPDATE)",
-      "Strict relational constraints (showtime_id, seat_id) on booking_seats and tickets mathematically eliminating double-booking",
-      "Monotonic ordered seat locking (ORDER BY seat_id ASC) preventing transaction deadlocks under heavy concurrent cart contention",
+      "Strict database-enforced unique constraints (showtime_id, seat_id) on booking_seats and tickets preventing duplicate seat allocation",
+      "Monotonic ordered seat locking (ORDER BY seat_id ASC) preventing circular lock waits and minimizing deadlock risk during concurrent reservations",
       "Fail-closed Flutterwave v3 sandbox payment lifecycle with timing-safe HMAC webhook verification and integer kobo financial accounting",
-      "Digital pass generation with deterministic QR-code tokens (react-native-qrcode-svg) and offline pass retrieval",
+      "Digital pass generation with deterministic QR-code tokens (react-native-qrcode-svg) and in-app pass presentation",
       "Mobile client hardening on physical Android hardware: cold-start auth self-healing, deep-link return routing, and in-flight query locking",
       "Empirical 500-VU local load test: 40/40 seats reserved, 9,155 expected HTTP 409 conflicts, 0 double bookings, 0 server errors (582ms avg latency)",
     ],

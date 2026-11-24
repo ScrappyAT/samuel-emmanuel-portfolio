@@ -187,7 +187,7 @@ export default function ReelPassCaseStudyPage() {
                   <h4 className="font-medium text-zinc-900 dark:text-zinc-100 text-sm">Resilient Mobile Architecture</h4>
                   <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
                     Guard against physical hardware latency with cold-start authentication retries, in-flight query locking,
-                    and offline ticket caching with scannable QR passes.
+                    and in-app digital pass rendering with scannable QR codes.
                   </p>
                 </div>
               </div>
@@ -286,7 +286,7 @@ export default function ReelPassCaseStudyPage() {
                     <tr>
                       <td className="px-4 py-3 font-medium text-zinc-900 dark:text-zinc-200">Mobile Client</td>
                       <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">Expo / React Native</td>
-                      <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">Seat selection, browser checkout invocation, and offline QR pass display</td>
+                      <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">Seat selection, browser checkout invocation, and digital QR pass rendering</td>
                     </tr>
                     <tr>
                       <td className="px-4 py-3 font-medium text-zinc-900 dark:text-zinc-200">API Gateway</td>
@@ -375,12 +375,12 @@ export default function ReelPassCaseStudyPage() {
                     A release operation is also verified via Lua: only the user who placed the hold can explicitly release it.
                   </li>
                   <li>
-                    <strong>Architectural Decision on Hold Window (5-Minute vs. 10-Minute TTL):</strong> While initial assessment
-                    rubrics suggested a 10-minute hold, ReelPass deliberately configured a default 5-minute (300-second) TTL
-                    (<code className="text-xs">SEAT_HOLD_TTL_SECONDS=300</code>). In high-density cinema markets, a 10-minute hold
-                    causes severe inventory starvation where abandoned carts artificially block genuine buyers. A 5-minute
-                    window provides ample time for mobile card/OTP authorization while ensuring swift inventory recycling.
-                    The duration is fully parameterizable via environment variables without requiring schema changes.
+                    <strong>Five-Minute Hold Window (Redis TTL):</strong> ReelPass implements a default 5-minute (300-second) TTL
+                    (<code className="text-xs">SEAT_HOLD_TTL_SECONDS=300</code>). In high-density cinema markets, longer hold
+                    windows cause severe inventory starvation where abandoned carts artificially block genuine buyers. A 5-minute
+                    window provides ample time for mobile card and OTP authorization while ensuring rapid inventory recycling
+                    when checkouts are abandoned. The duration is fully parameterizable via environment variables without requiring
+                    code or schema changes.
                   </li>
                 </ul>
               </div>
@@ -402,9 +402,10 @@ export default function ReelPassCaseStudyPage() {
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                     When acquiring row locks via <code className="text-xs">SELECT ... FOR UPDATE OF ss</code>, seat IDs are
-                    strictly sorted monotonically in ascending order. This guarantees that two concurrent transactions
+                    strictly sorted monotonically in ascending order. This ensures that concurrent transactions
                     requesting overlapping seats (e.g., User 1 requesting [A1, A2] and User 2 requesting [A2, A1]) acquire
-                    locks in identical order, eliminating lock cyclic dependencies and deadlock rollbacks.
+                    locks in identical sequence, preventing circular lock waits among seat rows and substantially reducing the
+                    risk of transaction deadlocks.
                   </p>
                 </div>
 
@@ -413,13 +414,13 @@ export default function ReelPassCaseStudyPage() {
                     2. Composite Database Constraints
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                    Relational integrity is permanently enforced by database unique constraints:
+                    Relational integrity is permanently enforced by PostgreSQL database-enforced unique constraints:
                     <br />
                     <code className="text-xs">UNIQUE (showtime_id, seat_id)</code> on <code className="text-xs">booking_seats</code>
                     <br />
                     <code className="text-xs">UNIQUE (showtime_id, seat_id)</code> on <code className="text-xs">tickets</code>
                     <br />
-                    These constraints provide a hardware-level mathematical guarantee that duplicate seat claims cannot be persisted.
+                    These constraints provide the final relational guarantee that duplicate seat claims are rejected at the database level even under concurrent transactions.
                   </p>
                 </div>
 
@@ -499,7 +500,7 @@ export default function ReelPassCaseStudyPage() {
               <div className="mt-4 space-y-4">
                 <div className="rounded-xl border border-zinc-200 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
                   <h3 className="text-base font-medium text-zinc-900 dark:text-zinc-100">
-                    Deterministic QR Pass String Format
+                    Structured Pass String Format
                   </h3>
                   <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                     Digital passes are issued with structured token payloads formatted as:
@@ -508,8 +509,8 @@ export default function ReelPassCaseStudyPage() {
                     REELPASS-BOOKING-&#123;bookingReference&#125; / REELPASS-TKT-&#123;seatId&#125;-&#123;bookingReference&#125;
                   </p>
                   <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                    These deterministic tokens can be parsed and authenticated offline by handheld cinema gate scanners,
-                    verifying the movie, auditorium, seat number, and booking reference without requiring real-time database queries.
+                    These structured tokens encapsulate the booking reference, showtime details, and seat identifiers for
+                    gate entry inspection.
                   </p>
                 </div>
                 <div className="rounded-xl border border-zinc-200 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
@@ -517,10 +518,10 @@ export default function ReelPassCaseStudyPage() {
                     Client-Side Pass Rendering (<code className="text-xs">react-native-qrcode-svg</code>)
                   </h3>
                   <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                    In the &ldquo;My Tickets&rdquo; screen, confirmed passes render high-density SVG QR codes using
-                    <code className="text-xs">react-native-qrcode-svg</code>. Tickets are cached locally on the device,
-                    ensuring moviegoers can present their tickets at cinema checkpoints even if cellular connectivity inside
-                    auditorium basements is degraded.
+                    In the &ldquo;My Tickets&rdquo; screen, confirmed bookings render high-density SVG QR codes on-demand using
+                    <code className="text-xs">react-native-qrcode-svg</code> with quiet-zone padding. The mobile client loads tickets
+                    dynamically from the API with in-flight request locking (<code className="text-xs">isFetchingRef</code>) and
+                    automatic retry backoff.
                   </p>
                 </div>
               </div>
