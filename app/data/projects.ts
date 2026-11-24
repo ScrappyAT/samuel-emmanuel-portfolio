@@ -6,6 +6,8 @@ export interface Project {
   engineeringHighlights: string[];
   technologies: string[];
   githubUrl: string;
+  /** Optional relative path to a dedicated case-study page (e.g. /projects/reelpass) */
+  caseStudyUrl?: string;
   /** Optional path to a preview image (relative to /public). Rendered above card content when provided. */
   previewImage?: string;
   previewImageAlt?: string;
@@ -41,6 +43,39 @@ export const projects: Project[] = [
       "Docker",
     ],
     githubUrl: "https://github.com/ScrappyAT/rota",
+    caseStudyUrl: "/projects/rota",
+  },
+  {
+    slug: "reelpass",
+    title: "ReelPass (Matinee) — Cinema Reservation & Digital Ticketing",
+    summary:
+      "A full-stack, concurrency-safe cinema ticket reservation and digital ticketing mobile application featuring atomic Redis Lua seat holds, PostgreSQL row locking, and Flutterwave sandbox payment reconciliation.",
+    context:
+      "Built for the Nigerian cinema exhibition market. Pairs an Expo React Native mobile client (tested on physical Android hardware) with an Express, PostgreSQL 16 (Neon), and Redis Cloud backend. Features interactive auditorium seat selection, 5-minute atomic seat holds, NGN integer kobo pricing, Flutterwave sandbox checkout, and scannable digital passes with QR codes.",
+    engineeringHighlights: [
+      "Two-tier concurrency safety: atomic fast-path Redis Lua seat holds (5-minute TTL) backed by PostgreSQL ACID row-level locking (SELECT ... FOR UPDATE)",
+      "Strict relational constraints (showtime_id, seat_id) on booking_seats and tickets mathematically eliminating double-booking",
+      "Monotonic ordered seat locking (ORDER BY seat_id ASC) preventing transaction deadlocks under heavy concurrent cart contention",
+      "Fail-closed Flutterwave v3 sandbox payment lifecycle with timing-safe HMAC webhook verification and integer kobo financial accounting",
+      "Digital pass generation with deterministic QR-code tokens (react-native-qrcode-svg) and offline pass retrieval",
+      "Mobile client hardening on physical Android hardware: cold-start auth self-healing, deep-link return routing, and in-flight query locking",
+      "Empirical 500-VU local load test: 40/40 seats reserved, 9,155 expected HTTP 409 conflicts, 0 double bookings, 0 server errors (582ms avg latency)",
+    ],
+    technologies: [
+      "TypeScript",
+      "React Native",
+      "Expo SDK 57",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "Redis",
+      "Lua Scripts",
+      "Flutterwave",
+      "Docker",
+      "k6",
+    ],
+    githubUrl: "https://github.com/ScrappyAT/Reelpass",
+    caseStudyUrl: "/projects/reelpass",
   },
   {
     slug: "subslice",
